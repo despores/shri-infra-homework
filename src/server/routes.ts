@@ -10,6 +10,8 @@ const indexHtml = (req: express.Request, res: express.Response) => {
     res.send(indexHtmlContent);
 };
 
+const check = 2;
+
 const store = new ExampleStore();
 
 export const router = express.Router();
