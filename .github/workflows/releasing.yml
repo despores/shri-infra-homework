@@ -41,7 +41,7 @@ jobs:
         id: commits
         run: |
           git checkout main
-          echo "commits=$(git log --pretty=format:"%H by %an with message %s" $(git describe --tags --abbrev=0)..HEAD)" >> "$GITHUB_OUTPUT"
+          echo "commits=$(git log --pretty=format:"%H by %an with message %s" $(git describe --tags $(git rev-list --tags --max-count=1))..HEAD)" >> "$GITHUB_OUTPUT"
 
 
       - name: Create tag
