@@ -37,22 +37,24 @@ jobs:
       - name: Push release branch
         run: git push -u origin releases/${{ github.run_number }}
 
+      - name: Get commit list
+        id: commits
+        run: echo "commits=$(git log --pretty=format:"%H by %an with message %s" $(git describe --tags --abbrev=0)..HEAD)" >> "$GITHUB_OUTPUT"
+
+
       - name: Create tag
         run: |
           git checkout main
           git tag release-version-${{ github.run_number }}
           git push origin --tags
       
-      - name: Get commit list
-        id: commits
-        run: echo "commits=$(git log $(release-version-${{ github.run_number }})..HEAD --pretty=format:"%H by %an with message %s")" >> "$GITHUB_OUTPUT"
-
       - name: Create Issue
         env:
           BODY: |
+            Release from ${{ github.triggering_actor }}
             Commit list from previous release:
             ${{ steps.commits.outputs.commits }}
-            Docker image in container registry: ${{ env.IMAGE }} 
+            Docker image in container registry: ${{ env.IMAGE }}
         run: |
           gh issue create \
           --title "Version ${{ github.run_number }}" \
