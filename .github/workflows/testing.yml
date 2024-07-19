@@ -19,6 +19,9 @@ jobs:
         with:
           node-version: 21.x
           cache: "npm"
+
+      - name: Download dependencies
+        run: npm ci
       
       - name: Run lint
         uses: npm run lint
