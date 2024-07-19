@@ -33,6 +33,11 @@ jobs:
 
       - name: Push release branch
         run: git push -u origin releases/${{ github.run_number }}
+
+      - name: Create tag
+        run: |
+          git checkout main
+          git tag release-version-${{ github.run_number }}
   
 
 
