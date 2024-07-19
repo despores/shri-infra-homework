@@ -3,6 +3,7 @@ name: Testing pull request
 on:
   pull_request:
     types: [opened, reopened, edited]
+    branches: "**"
 
 
 jobs:
