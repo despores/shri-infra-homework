@@ -22,7 +22,7 @@ jobs:
         run: git checkout -b release/${{ github.run_number }}
 
       - name: Create docker image
-        run: docker build -t cr.yandex/${{ secrets.CONTAINER_REGISTRY_ID }}/app:${{ github.run_number }} -t cr.yandex/${{ secrets.CONTAINER_REGISTRY_ID }}/app:${{ github.run_number }}_latest
+        run: docker build -t cr.yandex/${{ secrets.CONTAINER_REGISTRY_ID }}/app:${{ github.run_number }} -t cr.yandex/${{ secrets.CONTAINER_REGISTRY_ID }}/app:${{ github.run_number }}_latest .
 
       - name: Upload docker image to Container Registry
         run: docker push cr.yandex/${{ secrets.CONTAINER_REGISTRY_ID }}/app:${{ github.run_number }}
