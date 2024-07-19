@@ -1,0 +1,14 @@
+name: Testing pull-request
+
+on:
+  pull_request:
+    branches: ["main", "release/**"]
+    types: [opened, synchronize, reopened, edited]
+
+
+jobs:
+  lint:
+    uses: despores/shri-infra-homework/.github/workflows/lint.yml@main
+  
+  test:
+    uses: despores/shri-infra-homework/.github/workflows/test.yml@main
