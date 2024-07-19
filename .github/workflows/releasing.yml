@@ -39,7 +39,9 @@ jobs:
 
       - name: Get commit list
         id: commits
-        run: echo "commits=$(git log --pretty=format:"%H by %an with message %s" $(git describe --tags --abbrev=0)..HEAD)" >> "$GITHUB_OUTPUT"
+        run: |
+          git fetch --tags
+          echo "commits=$(git log --pretty=format:"%H by %an with message %s" $(git describe --tags --abbrev=0)..HEAD)" >> "$GITHUB_OUTPUT"
 
 
       - name: Create tag
