@@ -13,7 +13,7 @@ jobs:
   create-release:
     runs-on: ubuntu-latest
     env:
-      IMAGE: docker build -t cr.yandex/${{ secrets.CONTAINER_REGISTRY_ID }}/app
+      IMAGE: cr.yandex/${{ secrets.CONTAINER_REGISTRY_ID }}/app
 
     steps:
 
@@ -28,10 +28,10 @@ jobs:
           echo "${{ secrets.OAUTH_KEY }}" | docker login --username oauth --password-stdin cr.yandex
 
       - name: Create docker image
-        run: ${{ env.IMAGE }} -t ${{ env.IMAGE }}_latest .
+        run: docker build -t ${{ env.IMAGE }}:${{ github.run_number }} -t ${{ env.IMAGE }}:${{ github.run_number }}_latest .
 
       - name: Upload docker image to Container Registry
-        run: docker push --all-tags cr.yandex/${{ secrets.CONTAINER_REGISTRY_ID }}/app
+        run: docker push --all-tags ${{ env.IMAGE }}
 
       - name: Push release branch
         run: git push -u origin releases/${{ github.run_number }}
