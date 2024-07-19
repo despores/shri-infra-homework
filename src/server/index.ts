@@ -6,6 +6,9 @@ const basename = '/hw/store';
 
 const app = express();
 
+const test = 2;
+console.log(test);
+
 app.use(express.json());
 app.use(basename, express.static('dist', { index: false }));
 app.use(basename, router);
