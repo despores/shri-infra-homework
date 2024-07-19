@@ -41,6 +41,7 @@ jobs:
         id: commits
         run: |
           git checkout main
+          git fetch --tags
           echo "commits=$(git log --pretty=format:"%H by %an with message %s" $(git describe --tags $(git rev-list --tags --max-count=1))..HEAD)" >> "$GITHUB_OUTPUT"
 
 
