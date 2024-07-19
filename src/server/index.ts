@@ -4,6 +4,9 @@ import { router } from './routes';
 const port = Number(process.env.PORT) || 3000;
 const basename = '/hw/store';
 
+const test = 2;
+console.log(test);
+
 const app = express();
 
 app.use(express.json());
