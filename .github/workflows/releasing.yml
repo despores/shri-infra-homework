@@ -35,7 +35,11 @@ jobs:
         run: git push -u origin releases/${{ github.run_number }}
 
       - name: Create tag
-        run: git checkout main | git tag release-version-${{ github.run_number }}
+        run: |
+          git checkout main
+          git tag release-version-${{ github.run_number }}
+          git show release-version-${{ github.run_number }}
+          git push origin --tags
   
 
 
