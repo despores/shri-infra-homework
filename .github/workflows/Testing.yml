@@ -3,25 +3,10 @@ name: Testing pull request
 on:
   pull_request:
     branches: ["main", "release/**"]
+    types: [opened, synchronize, reopened, edited]
 
 
 jobs:
-  lint:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Use Node.js
-        uses:  actions/setup-node@v4
-        with:
-          node-version: 21.x
-          cache: "npm"
-      
-      - name: Run lint
-        uses: npm run lint
-
   test:
     runs-on: ubuntu-latest
 
@@ -30,11 +15,14 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Use Node.js
-        uses:  actions/setup-node@v4
+        uses: actions/setup-node@v4
         with:
           node-version: 21.x
           cache: "npm"
       
+      - name: Run lint
+        uses: npm run lint
+
       - name: Run tests
         uses: npm run test
-  
+ 
