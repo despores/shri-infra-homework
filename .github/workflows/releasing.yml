@@ -19,7 +19,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Create release branch
-        run: git checkout -b release/${{ github.run_number }}
+        run: git checkout -b releases/${{ github.run_number }}
 
       - name: Login to Yandex Cloud
         run: |
@@ -32,7 +32,7 @@ jobs:
         run: docker push --all-tags cr.yandex/${{ secrets.CONTAINER_REGISTRY_ID }}/app
 
       - name: Push release branch
-        run: git push origin release/v${{ github.run_number }}
+        run: git push -u origin releases/${{ github.run_number }}
   
 
 
