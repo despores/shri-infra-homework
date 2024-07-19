@@ -21,6 +21,9 @@ jobs:
       - name: Create release branch
         run: git checkout -b release/${{ github.run_number }}
 
+      - name: Login to Yandex Cloud
+        run: docker login --username json_key --password ${{ secrets.SERVICE_ACCOUNT_KEY }}
+
       - name: Create docker image
         run: docker build -t cr.yandex/${{ secrets.CONTAINER_REGISTRY_ID }}/app:${{ github.run_number }} -t cr.yandex/${{ secrets.CONTAINER_REGISTRY_ID }}/app:${{ github.run_number }}_latest .
 
