@@ -1,0 +1,31 @@
+name: Releasing
+
+on:
+  workflow_dispatch:
+
+jobs:
+  lint:
+    uses: despores/shri-infra-homework/.github/workflows/lint.yml@main
+
+  test:
+    uses: despores/shri-infra-homework/.github/workflows/test.yml@main
+
+  create-release:
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Create release branch
+        run: git checkout -b release/${{ github.run_number }}
+
+      - name: Create docker image
+        run: docker build -t cr.yandex/${{ secrets.CONTAINER_REGISTRY_ID }}/app:${{ github.run_number }} -t cr.yandex/${{ secrets.CONTAINER_REGISTRY_ID }}/app:${{ github.run_number }}_latest
+
+      - name: Upload docker image to Container Registry
+        run: docker push cr.yandex/${{ secrets.CONTAINER_REGISTRY_ID }}/app:${{ github.run_number }}
+  
+
+
