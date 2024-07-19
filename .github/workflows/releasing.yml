@@ -57,7 +57,6 @@ jobs:
           gh issue create \
           --title "Version ${{ github.run_number }}" \
           --assignee "${{ github.triggering_actor }}" \
-          --label "release" \
           --body "${{ env.BODY }}"
 
 
