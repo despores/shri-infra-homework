@@ -42,7 +42,7 @@ jobs:
         run: |
           git checkout main
           git fetch --tags
-          echo "commits=$(git log --pretty=format:"%H by %an with message %s" $(git describe --tags $(git rev-list --tags --max-count=1))..HEAD)" >> "$GITHUB_OUTPUT"
+          echo "commits=$(git log --pretty=format:"%H" $(git describe --tags $(git rev-list --tags --max-count=1))..HEAD)" >> "$GITHUB_OUTPUT"
 
 
       - name: Create tag
@@ -54,8 +54,10 @@ jobs:
         env:
           BODY: |
             Release from ${{ github.triggering_actor }}
+
             Commit list from previous release:
             ${{ steps.commits.outputs.commits }}
+           
             Docker image in container registry: ${{ env.IMAGE }}
         run: |
           gh issue create \
