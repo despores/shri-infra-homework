@@ -3,7 +3,6 @@ name: Testing pull request
 on:
   pull_request:
     branches: ["main", "release/**"]
-    types: [opened, synchronize, reopened, edited]
 
 
 jobs:
