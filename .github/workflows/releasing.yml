@@ -90,7 +90,6 @@ jobs:
           rm "$temp_file"
           git add CHANGELOG.md
           git commit -m "Updated CHANGELOG.md"
-          gh pr create --title "Update changelog" --body "Updated changelog to contain info about version ${{ github.run_number }}"
-          git push --admin origin main
+          git push --force --admin origin main
 
 
