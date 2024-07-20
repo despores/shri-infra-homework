@@ -51,8 +51,9 @@ jobs:
         run: |
           git checkout main
           {
-            echo "commits<<EOF"
+            echo 'commits<<EOF'
             git log --pretty=format:"%H" $(git describe --tags $(git rev-list --tags --max-count=1))..HEAD
+            echo ""
             echo EOF
           } >> "$GITHUB_OUTPUT"
 
