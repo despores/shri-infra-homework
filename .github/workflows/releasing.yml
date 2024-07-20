@@ -21,6 +21,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
+          fetch-depth: 0
           token: ${{ secrets.ACCESS_TOKEN }}
 
       - name: Setup git
@@ -49,7 +50,6 @@ jobs:
         id: commits
         run: |
           git checkout main
-          git fetch --tags
           echo "commits=$(git log --pretty=format:"%H" $(git describe --tags $(git rev-list --tags --max-count=1))..HEAD)" >> "$GITHUB_OUTPUT"
 
 
