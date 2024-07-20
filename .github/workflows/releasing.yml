@@ -77,7 +77,7 @@ jobs:
         run: |
           changelog="CHANGELOG.md"
           temp_file="temp.txt"
-          tail -n +2 "$original_file" > "$temp_file"
+          tail -n +2 "$changelog" > "$temp_file"
           echo "${{ env.CHANGELOG_TEXT }}" | cat - "$temp_file" > "$original_file"
           rm "$temp_file"
 
