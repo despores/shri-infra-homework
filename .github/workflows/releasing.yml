@@ -81,6 +81,7 @@ jobs:
             ## Version ${{ github.run_number }}
 
             Commit list from previous version:
+            
             ${{ steps.commits.outputs.commits }}
         run: |
           changelog="CHANGELOG.md"
