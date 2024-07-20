@@ -64,5 +64,20 @@ jobs:
           --title "Version ${{ github.run_number }}" \
           --assignee "${{ github.triggering_actor }}" \
           --body "${{ env.BODY }}"
+        
+      - name: Update changelog
+        env:
+          CHANGELOG_TEXT: |
+            # CHANGELOG
 
+            ## Version ${{ github.run_number }}
+
+            Commit list from previous version:
+            ${{ steps.commits.outputs.commits }}
+        run: |
+          changelog="CHANGELOG.md"
+          temp_file="temp.txt"
+          tail -n +2 "$original_file" > "$temp_file"
+          echo "${{ env.CHANGELOG_TEXT }}" | cat - "$temp_file" > "$original_file"
+          rm "$temp_file"
 
