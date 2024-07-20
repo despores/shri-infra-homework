@@ -90,6 +90,6 @@ jobs:
           rm "$temp_file"
           git add CHANGELOG.md
           git commit -m "Updated CHANGELOG.md"
-          git push --force --admin origin main
+          git push --force origin main
 
 
