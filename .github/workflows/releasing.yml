@@ -78,6 +78,6 @@ jobs:
           changelog="CHANGELOG.md"
           temp_file="temp.txt"
           tail -n +2 "$changelog" > "$temp_file"
-          echo "${{ env.CHANGELOG_TEXT }}" | cat - "$temp_file" > "$original_file"
+          echo "${{ env.CHANGELOG_TEXT }}" | cat - "$temp_file" > "$changelog"
           rm "$temp_file"
 
