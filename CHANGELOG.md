@@ -1,18 +1,5 @@
 # CHANGELOG
 
-## Version 39
-
-Commit list from previous version:
-
-5d720d7a7fd46e557e41e27de3d1cf507552b3e9
-eb40574a031b3e24cb812a659cb2d687f68e9cc4
-91e6a9d9107548c7360b7461ada7407f01c9d49f
-b04b2e4d4ce6382affa311349a7f024a71be7522
-fb8bf988c0fb2a6905ceb282050bfc9bca475f87
-1e274115f7c9789b0c3e4e3c19d42f447fbcf872
-3c96d8fb133b63f59a3580051bf5582c877c7c3e
-
-
 ## Version 0
 
 Initial version
