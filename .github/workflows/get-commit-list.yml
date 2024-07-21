@@ -1,0 +1,24 @@
+name: Get commit list
+
+on:
+    workflow_call:
+
+jobs:
+    get-commits:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v4
+              with:
+                fetch-depth: 0
+            
+            - name: Get commits
+              run: |
+                git checkout main
+                {
+                    echo 'commits<<EOF'
+                    git log --pretty=format:"%H" $(git describe --tags $(git rev-list --tags --max-count=1))..HEAD
+                    echo ""
+                    echo EOF
+                } >> "$GITHUB_OUTPUT"
