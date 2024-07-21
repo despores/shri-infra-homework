@@ -33,7 +33,7 @@ jobs:
       - name: Create release branch
         run: git checkout -b releases/${{ github.run_number }}
 
-      - name: Login to Yandex Cloud
+      - name: Login to Container Registry
         run: |
           echo "${{ secrets.OAUTH_KEY }}" | docker login --username oauth --password-stdin cr.yandex
 
