@@ -23,9 +23,13 @@ jobs:
 
     steps:
 
-      - name: Check if workflow started from release branch
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.ACCESS_TOKEN }}
+          ref: releases/${{ inputs.release-version }}
+
+      - name: Setup git
         run: |
-            if [[ ! "${GITHUB_REF_NAME}" =~ ^releases/[0-9]+$ ]]; then
-            echo "Fix-release workflow started from a wrong branch"
-            exit 1
-            fi
+          git config user.name "despores"
+          git config user.email "github@noreply.com"
