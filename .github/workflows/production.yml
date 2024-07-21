@@ -44,8 +44,9 @@ jobs:
             tr -d '"' | \
             docker login --username iam --password-stdin cr.yandex
             docker pull ${{ env.IMAGE }}
+            docker stop $(docker ps -a -q)
             docker run -d -p 3000:3000 ${{ env.IMAGE }}
-            
+
       - name: Comment on Issue
         env:
           BODY: |
