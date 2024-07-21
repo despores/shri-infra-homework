@@ -41,8 +41,12 @@ jobs:
       - name: Get commit list
         id: commits
         run: |
-          git fetch --tags
-          echo "commits=$(git log --pretty=format:"%H" $(git describe --tags $(git rev-list --tags --max-count=1))..HEAD)" >> "$GITHUB_OUTPUT"
+          {
+            echo 'commits<<EOF'
+            git log --pretty=format:"%H" $(git describe --tags $(git rev-list --tags --max-count=1))..HEAD
+            echo ""
+            echo EOF
+          } >> "$GITHUB_OUTPUT"
 
       - name: Create tag
         run: |
