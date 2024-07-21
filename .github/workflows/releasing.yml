@@ -72,9 +72,11 @@ jobs:
            
             Docker image in container registry: ${{ env.IMAGE }}:${{ github.run_number }}
         run: |
+          gh label create release-${{ github.run_number }}
           gh issue create \
           --title "Version ${{ github.run_number }}" \
           --assignee "${{ github.triggering_actor }}" \
+          --label release-${{ github.run_number }} \
           --body "${{ env.BODY }}"
         
       - name: Update and push changelog
