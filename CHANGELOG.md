@@ -1,5 +1,19 @@
 # CHANGELOG
 
+## Version 45
+
+Commit list from previous release/fix-release tag:
+
+58358e6850db6c870ebf9e8c235fc311695ad2ee
+94c206b654c6be2d358c054ceac31881666899ef
+e93de02a9180735d40f32d903300e806f38a4476
+9852e46a6caf6123ec69f25449af08f3e787671c
+5c38a73658444ddc29a1f106d1727ab384647e87
+3b4e922b092c2a303ff552123ae5498051856529
+23ca034ab54ca58590bd71aa8edbe409d9df9379
+ae0e6a181a69b5b023650ef64bdc3306f53caed9
+
+
 ## Version 42
 
 Commit list from previous release/fix-release tag:
