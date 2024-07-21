@@ -48,7 +48,11 @@ jobs:
 
       - name: Get commit list
         id: commits
-        uses: despores/shri-infra-homework/.github/workflows/get-commit-list.yml@main   
+        run: |
+          git checkout main
+          git fetch --tags
+          echo "commits=$(git log --pretty=format:"%H" $(git describe --tags $(git rev-list --tags --max-count=1))..HEAD)" >> "$GITHUB_OUTPUT"
+
 
       - name: Create release tag
         run: |

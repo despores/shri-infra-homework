@@ -22,7 +22,6 @@ jobs:
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
-
       - name: Checkout code
         uses: actions/checkout@v4
         with:
@@ -41,7 +40,9 @@ jobs:
 
       - name: Get commit list
         id: commits
-        uses: despores/shri-infra-homework/.github/workflows/get-commit-list.yml@main
+        run: |
+          git fetch --tags
+          echo "commits=$(git log --pretty=format:"%H" $(git describe --tags $(git rev-list --tags --max-count=1))..HEAD)" >> "$GITHUB_OUTPUT"
 
       - name: Create tag
         run: |
@@ -52,13 +53,10 @@ jobs:
         env:
           BODY: |
             Release fix from ${{ github.triggering_actor }}
-
             Commit list from previous release/fix-release tag:
             ${{ steps.commits.outputs.commits }}
-
             Docker image in container registry: ${{ env.IMAGE }}:${{ inputs.release-version }}_fix${{ github.run_number }}
         run: |
           ISSUE_NUMBER=$(gh issue list --label "release-${{ inputs.release-version }}" --json number --jq '.[0].number')
           gh issue comment $ISSUE_NUMBER \
           --body "${{ env.BODY }}" \
-
