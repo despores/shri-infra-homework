@@ -1,12 +1,7 @@
-name: Fix-release
+name: Release
 
 on:
   workflow_dispatch:
-    inputs:
-      release-version:
-        description: "Release version"
-        required: true
-        type: number
 
 jobs:
   lint:
@@ -15,7 +10,7 @@ jobs:
   test:
     uses: despores/shri-infra-homework/.github/workflows/test.yml@main
 
-  fix-release:
+  create-release:
     runs-on: ubuntu-latest
     env:
       IMAGE: cr.yandex/${{ secrets.CONTAINER_REGISTRY_ID }}/app
@@ -26,10 +21,79 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
+          fetch-depth: 0
           token: ${{ secrets.ACCESS_TOKEN }}
-          ref: releases/${{ inputs.release-version }}
 
       - name: Setup git
         run: |
           git config user.name "despores"
           git config user.email "github@noreply.com"
+
+
+      - name: Create release branch
+        run: git checkout -b releases/${{ github.run_number }}
+
+      - name: Login to Container Registry
+        run: |
+          echo "${{ secrets.OAUTH_KEY }}" | docker login --username oauth --password-stdin cr.yandex
+
+      - name: Create docker image
+        run: docker build -t ${{ env.IMAGE }}:${{ github.run_number }} -t ${{ env.IMAGE }}:${{ github.run_number }}_latest .
+
+      - name: Upload docker image to Container Registry
+        run: docker push --all-tags ${{ env.IMAGE }}
+
+      - name: Push release branch
+        run: git push -u origin releases/${{ github.run_number }}
+
+      - name: Get commit list
+        id: commits
+        run: |
+          git checkout main
+          git fetch --tags
+          echo "commits=$(git log --pretty=format:"%H" $(git describe --tags $(git rev-list --tags --max-count=1))..HEAD)" >> "$GITHUB_OUTPUT"
+
+
+      - name: Create release tag
+        run: |
+          git tag release-version-${{ github.run_number }}
+          git push origin --tags
+      
+      - name: Create Issue
+        env:
+          BODY: |
+            Release from ${{ github.triggering_actor }}
+
+            Commit list from previous release/fix-release tag:
+            ${{ steps.commits.outputs.commits }}
+           
+            Docker image in container registry: ${{ env.IMAGE }}:${{ github.run_number }}
+        run: |
+          gh label create release-${{ github.run_number }}
+          gh issue create \
+          --title "Version ${{ github.run_number }}" \
+          --assignee "${{ github.triggering_actor }}" \
+          --label release-${{ github.run_number }} \
+          --body "${{ env.BODY }}"
+        
+      - name: Update and push changelog
+        env:
+          CHANGELOG_TEXT: |
+            # CHANGELOG
+
+            ## Version ${{ github.run_number }}
+
+            Commit list from previous release/fix-release tag:
+            
+            ${{ steps.commits.outputs.commits }}
+        run: |
+          changelog="CHANGELOG.md"
+          temp_file="temp.txt"
+          tail -n +2 "$changelog" > "$temp_file"
+          echo "${{ env.CHANGELOG_TEXT }}" | cat - "$temp_file" > "$changelog"
+          rm "$temp_file"
+          git add CHANGELOG.md
+          git commit -m "Updated CHANGELOG.md"
+          git push --force origin main
+
+
