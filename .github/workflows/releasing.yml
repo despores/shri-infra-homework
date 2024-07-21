@@ -57,7 +57,6 @@ jobs:
             echo EOF
           } >> "$GITHUB_OUTPUT"
 
-
       - name: Create release tag
         run: |
           git tag release-version-${{ github.run_number }}
@@ -68,7 +67,7 @@ jobs:
           BODY: |
             Release from ${{ github.triggering_actor }}
 
-            Commit list from previous release:
+            Commit list from previous release/fix-release tag:
             ${{ steps.commits.outputs.commits }}
            
             Docker image in container registry: ${{ env.IMAGE }}:${{ github.run_number }}
@@ -85,7 +84,7 @@ jobs:
 
             ## Version ${{ github.run_number }}
 
-            Commit list from previous version:
+            Commit list from previous release/fix-release tag:
             
             ${{ steps.commits.outputs.commits }}
         run: |
