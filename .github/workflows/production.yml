@@ -1,0 +1,33 @@
+name: Production
+
+on:
+  workflow_dispatch:
+    inputs:
+      release-version:
+        description: "Release version"
+        required: true
+        type: number
+
+jobs:
+  prod:
+    runs-on: ubuntu-latest
+    env:
+      IMAGE: cr.yandex/${{ secrets.CONTAINER_REGISTRY_ID }}/app
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.ACCESS_TOKEN }}
+
+      - name: Login to Container Registry
+        run: |
+          echo "${{ secrets.OAUTH_KEY }}" | docker login --username oauth --password-stdin cr.yandex
+
+      - name: Check if Container Registry contains docker image
+        run: |
+          if [ -z "$(docker images -q myimage:mytag 2> /dev/null)" ]; then
+          exit 1
+          fi
