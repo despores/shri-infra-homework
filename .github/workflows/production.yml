@@ -28,7 +28,7 @@ jobs:
 
       - name: Check if Container Registry contains docker image
         run: |
-          if [ -z "$(docker images -q ${{ env.IMAGE }}:${{ inputs.release-version }} 2> /dev/null)" ]; then
+          if [ -z "$(docker images -q ${{ env.IMAGE }}:${{ inputs.release-version }}_latest 2> /dev/null)" ]; then
           echo "Docker image not found"
           exit 1
           fi
