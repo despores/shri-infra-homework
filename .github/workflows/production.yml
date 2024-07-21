@@ -30,8 +30,12 @@ jobs:
         run: |
           docker manifest inspect ${{ env.IMAGE }}:${{ inputs.release-version }}_latest
 
-    #   - name: Connect to VM
-    #     uses: appleboy/ssh-action@v1.0.3
-    #       with:
-
-
+      - name: Connect to VM
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          passphrase: ${{ secrets.PASSPHRASE }}
+          key: ${{ secrets.KEY }}
+          script: |
+            whomami
