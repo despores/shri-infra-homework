@@ -71,7 +71,7 @@ jobs:
             Commit list from previous release:
             ${{ steps.commits.outputs.commits }}
            
-            Docker image in container registry: ${{ env.IMAGE }}
+            Docker image in container registry: ${{ env.IMAGE }}:${{ github.run_number }}
         run: |
           gh issue create \
           --title "Version ${{ github.run_number }}" \
