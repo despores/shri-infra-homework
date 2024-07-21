@@ -45,5 +45,14 @@ jobs:
             docker login --username iam --password-stdin cr.yandex
             docker pull ${{ env.IMAGE }}
             docker run -p 3000:3000 ${{ env.IMAGE }}
+            exit
 
+      - name: Comment on Issue
+        env:
+          BODY: |
+            Release pushed to production by ${{ github.triggering_actor }}
+        run: |
+          ISSUE_NUMBER=$(gh issue list --label "release-${{ inputs.release-version }}" --json number --jq '.[0].number')
+          gh issue comment $ISSUE_NUMBER \
+          --body "${{ env.BODY }}" \
 
